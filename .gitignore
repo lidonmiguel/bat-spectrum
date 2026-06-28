@@ -216,3 +216,30 @@ __marimo__/
 
 # Streamlit
 .streamlit/secrets.toml
+
+# Audio and generated data
+data/raw_audio/
+data/processed/
+data/exports/
+
+*.wav
+*.mp3
+*.aiff
+*.flac
+
+# Visual renders
+visuals/renders/
+
+# Python
+__pycache__/
+*.pyc
+.venv/
+venv/
+.env
+
+# Jupyter
+.ipynb_checkpoints/
+
+# System
+.DS_Store
+Thumbs.db
