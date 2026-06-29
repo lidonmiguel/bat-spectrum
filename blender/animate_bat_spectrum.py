@@ -8,7 +8,7 @@ import bpy
 from mathutils import Vector
 
 
-PROJECT_ROOT = Path(r"C:\Users\mikil\Documents\Repositorios\bat-spectrum")
+PROJECT_ROOT = Path(__file__).resolve().parents[1]
 
 SCENE_JSON = PROJECT_ROOT / "data" / "exports" / "blender_scene.json"
 OUTPUT_BLEND = PROJECT_ROOT / "blender" / "bat_spectrum_generated.blend"
@@ -254,10 +254,14 @@ def main() -> None:
     for edge in scene_data["edges"]:
         edge_objects.append(create_edge(edge, fps))
 
-    setup_camera_and_light(scene_data)
+        setup_camera_and_light(scene_data)
 
-    audio_path = scene_data["audio"]["path"]
-    add_audio_to_sequence_editor(audio_path)
+    audio_path = Path(scene_data["audio"]["path"])
+
+    if not audio_path.is_absolute():
+        audio_path = PROJECT_ROOT / audio_path
+
+    add_audio_to_sequence_editor(str(audio_path))
 
     bpy.ops.wm.save_as_mainfile(filepath=str(OUTPUT_BLEND))
 

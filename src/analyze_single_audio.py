@@ -230,7 +230,7 @@ def main() -> None:
     pulses_df["color_g"] = pulses_df["energy_norm"]
     pulses_df["color_b"] = pulses_df["freq_norm"]
 
-    # Animation controls for TouchDesigner.
+    # Animation controls.
     pulses_df["visible"] = 1
     pulses_df["fade_in"] = 0.08
     pulses_df["fade_out"] = 0.25
@@ -263,7 +263,7 @@ def main() -> None:
     edges_df = pd.DataFrame(edge_rows)
 
     metadata = {
-        "audio_path": str(AUDIO_PATH),
+        "audio_path": str(AUDIO_PATH.relative_to(PROJECT_ROOT)).replace("\\", "/"),
         "sample_rate_hz": int(sr),
         "duration_seconds": float(duration_seconds),
         "nyquist_hz": float(nyquist_hz),

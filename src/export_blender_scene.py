@@ -52,14 +52,6 @@ def main() -> None:
         metadata.get("duration_seconds", pulses["death_time"].max())
     )
 
-    # Blender uses Z as vertical.
-    # We map:
-    # X = time position
-    # Y = depth / energy
-    # Z = frequency height
-    center_x = pulses["pos_x"].mean()
-    center_y = pulses["pos_y"].mean()
-    center_z = pulses["pos_z"].mean()
 
     nodes = []
 
@@ -167,7 +159,7 @@ def main() -> None:
         "project": "Bat Spectrum",
         "mode": "single_audio_realtime_map",
         "audio": {
-            "path": str(AUDIO_PATH.resolve()),
+            "path": str(AUDIO_PATH.relative_to(PROJECT_ROOT)).replace("\\", "/"),
             "duration_seconds": duration_seconds,
         },
         "animation": {

@@ -2,7 +2,7 @@
   "project": "Bat Spectrum",
   "mode": "single_audio_realtime_map",
   "audio": {
-    "path": "C:\\Users\\mikil\\Documents\\Repositorios\\bat-spectrum\\data\\raw_audio\\current_audio.wav",
+    "path": "data/raw_audio/current_audio.wav",
     "duration_seconds": 12.6337024
   },
   "animation": {
@@ -1364,7 +1364,7 @@
     }
   ],
   "metadata": {
-    "audio_path": "C:\\Users\\mikil\\Documents\\Repositorios\\bat-spectrum\\data\\raw_audio\\current_audio.wav",
+    "audio_path": "data/raw_audio/current_audio.wav",
     "sample_rate_hz": 312500,
     "duration_seconds": 12.6337024,
     "nyquist_hz": 156250.0,
