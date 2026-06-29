@@ -243,3 +243,6 @@ venv/
 # System
 .DS_Store
 Thumbs.db
+
+#  Blender
+*.blend1
