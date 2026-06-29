@@ -217,32 +217,27 @@ __marimo__/
 # Streamlit
 .streamlit/secrets.toml
 
-# Audio and generated data
-data/raw_audio/
-data/processed/
-data/exports/
+# Active working audio
+data/raw_audio/current_audio.wav
 
-*.wav
-*.mp3
-*.aiff
-*.flac
+# Temporary processed files
+data/processed/current_audio_render.wav
+data/processed/bat_spectrum_render.mp4
+data/processed/pulses/
 
-# Visual renders
-visuals/renders/
+# Temporary generated exports for the current audio
+data/exports/current_*.csv
+data/exports/current_*.json
+data/exports/blender_scene.json
 
-# Python
-__pycache__/
-*.pyc
-.venv/
-venv/
-.env
+# Old/generated batch exports
+data/exports/pulses/
+data/exports/pulses_all.csv
+data/exports/pulses_summary.csv
 
-# Jupyter
-.ipynb_checkpoints/
+# Blender backups
+*.blend1
 
 # System
 .DS_Store
 Thumbs.db
-
-#  Blender
-*.blend1

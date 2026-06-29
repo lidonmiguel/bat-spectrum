@@ -1,0 +1,11 @@
+{
+  "audio_path": "C:\\Users\\mikil\\Documents\\Repositorios\\bat-spectrum\\data\\raw_audio\\current_audio.wav",
+  "sample_rate_hz": 312500,
+  "duration_seconds": 12.6337024,
+  "nyquist_hz": 156250.0,
+  "detected_pulses": 28,
+  "detection_min_freq_hz": 10000,
+  "detection_max_freq_hz": 60000,
+  "detection_threshold": 0.28,
+  "purpose": "single_audio_realtime_animation"
+}
