@@ -1,0 +1,4 @@
+    min_freq = 20000
+    max_freq = min(100000, nyquist_hz * 0.95)
+
+    threshold = 0.18

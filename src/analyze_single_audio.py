@@ -120,8 +120,8 @@ def main() -> None:
     magnitude = np.abs(stft)
 
     # Detection band for Pipistrellus-like ultrasonic calls.
-    min_freq = 10000
-    max_freq = 60000
+    min_freq = 20000
+    max_freq = min(100000, nyquist_hz * 0.95)
 
     freq_mask = (frequencies >= min_freq) & (frequencies <= max_freq)
     band_magnitude = magnitude[freq_mask, :]
@@ -137,8 +137,8 @@ def main() -> None:
     energy_smooth = smooth_curve(energy_norm, window_size=5)
 
     # Exploratory detection parameters.
-    threshold = 0.28
-    min_pulse_duration = 0.003
+    threshold = 0.12
+    min_pulse_duration = 0.002
     max_gap_between_parts = 0.010
 
     active = energy_smooth > threshold

@@ -8,7 +8,7 @@ import bpy
 from mathutils import Vector
 
 
-PROJECT_ROOT = Path(__file__).resolve().parents[1]
+PROJECT_ROOT = Path(r"C:\Users\mikil\Documents\Repositorios\bat-spectrum")
 
 SCENE_JSON = PROJECT_ROOT / "data" / "exports" / "blender_scene.json"
 OUTPUT_BLEND = PROJECT_ROOT / "blender" / "bat_spectrum_generated.blend"
@@ -159,20 +159,40 @@ def create_edge(edge: dict, fps: int):
 
 def add_audio_to_sequence_editor(audio_path: str) -> None:
     scene = bpy.context.scene
+    audio_file = Path(audio_path)
+
+    if not audio_file.exists():
+        print(f"Audio file does not exist: {audio_file}")
+        return
+
+    # Clear the whole sequencer first, so we avoid duplicated audio strips.
+    try:
+        scene.sequence_editor_clear()
+    except Exception:
+        pass
+
     sequence_editor = scene.sequence_editor_create()
 
     try:
-        sequence_editor.sequences.new_sound(
+        strip = sequence_editor.sequences.new_sound(
             name="current_audio",
-            filepath=audio_path,
+            filepath=str(audio_file),
             channel=1,
             frame_start=1,
         )
-        print(f"Audio added to sequencer: {audio_path}")
-    except Exception as exc:
-        print(f"Could not add audio through sequence_editor.sequences.new_sound: {exc}")
-        print("You can add the WAV manually in Blender if needed.")
 
+        strip.frame_start = 1
+        strip.volume = 1.0
+        scene.audio_volume = 1.0
+
+        print(f"Audio added to sequencer: {audio_file}")
+        print(f"Audio strip frame start: {strip.frame_start}")
+
+    except Exception as exc:
+        print(f"Could not add audio automatically: {exc}")
+        print("Add it manually with Video Editing → Add → Sound.")
+        
+        
 
 def setup_camera_and_light(scene_data: dict) -> None:
     nodes = scene_data["nodes"]
@@ -189,12 +209,12 @@ def setup_camera_and_light(scene_data: dict) -> None:
     light.data.energy = 350
     light.data.size = 6
 
-    bpy.ops.object.camera_add(location=(0, -9, 6.5))
+    bpy.ops.object.camera_add(location=(0, -13, 8.0))
     camera = bpy.context.object
     camera.name = "camera_main"
     look_at(camera, center)
 
-    camera.data.lens = 45
+    camera.data.lens = 40
     camera.data.dof.use_dof = True
     camera.data.dof.focus_distance = 12
     camera.data.dof.aperture_fstop = 5.6
@@ -217,6 +237,11 @@ def setup_scene(scene_data: dict) -> None:
 
     scene.world = bpy.data.worlds.new("Bat Spectrum World") if not scene.world else scene.world
     scene.world.color = (0, 0, 0)
+    
+    scene.view_settings.view_transform = "Filmic"
+    scene.view_settings.look = "High Contrast"
+    scene.view_settings.exposure = 0
+    scene.view_settings.gamma = 1
 
     # Eevee is fast and good enough for the first preview.
     try:
@@ -254,14 +279,10 @@ def main() -> None:
     for edge in scene_data["edges"]:
         edge_objects.append(create_edge(edge, fps))
 
-        setup_camera_and_light(scene_data)
+    setup_camera_and_light(scene_data)
 
-    audio_path = Path(scene_data["audio"]["path"])
-
-    if not audio_path.is_absolute():
-        audio_path = PROJECT_ROOT / audio_path
-
-    add_audio_to_sequence_editor(str(audio_path))
+    audio_path = scene_data["audio"]["path"]
+    add_audio_to_sequence_editor(audio_path)
 
     bpy.ops.wm.save_as_mainfile(filepath=str(OUTPUT_BLEND))
 

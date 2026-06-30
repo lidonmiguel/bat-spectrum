@@ -1,0 +1,4 @@
+    min_freq = 15000
+    max_freq = 60000 
+    
+    threshold = 0.16

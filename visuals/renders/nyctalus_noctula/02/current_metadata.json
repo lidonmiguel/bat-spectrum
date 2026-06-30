@@ -1,0 +1,11 @@
+{
+  "audio_path": "data/raw_audio/current_audio.wav",
+  "sample_rate_hz": 256000,
+  "duration_seconds": 16.9995,
+  "nyquist_hz": 128000.0,
+  "detected_pulses": 12,
+  "detection_min_freq_hz": 15000,
+  "detection_max_freq_hz": 60000,
+  "detection_threshold": 0.16,
+  "purpose": "single_audio_realtime_animation"
+}
