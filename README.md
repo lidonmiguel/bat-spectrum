@@ -1,153 +1,81 @@
 # Bat Spectrum
 
-**Bat Spectrum** is an audiovisual project that transforms bat recordings into animated acoustic maps.
+**Bat Spectrum** is an audiovisual research project that transforms bat recordings into animated acoustic maps.
 
-The current pipeline analyzes one selected audio file, detects bat sound events, converts those events into nodes and connections, and renders an animated 3D map in Blender. The original field recording is preserved as the audio source, while the visualization reveals the detected bat activity over time.
+The project analyses a selected bat audio file, detects ultrasonic pulse events, extracts acoustic features, and converts them into a 3D visual system rendered in Blender.
 
-## Concept
-
-The project is based on a simple idea:
+The goal is not to create a literal scientific visualization only, but a hybrid between analysis, archive, and audiovisual interpretation.
 
 ```text
-audio recording
+bat recording
 ↓
-bat sound event detection
+audio analysis
+↓
+pulse detection
 ↓
 acoustic features
 ↓
-3D sound map
+3D node map
 ↓
-animated nodes and connections
+animated Blender render
 ↓
-Blender render with original audio
+archived visual result
 ```
 
-The visualization is not intended to be a traditional graph. It is a spatial map of sound events. Each node represents a detected bat pulse or call event. The position of the node is based on acoustic characteristics such as frequency, duration, energy and interval between events. Time controls when each node appears.
+## Current status
 
-This means:
+The project currently works with a **single active audio file** at a time.
 
-```text
-node position = acoustic similarity / sound characteristics
-node birth = real time in the audio
-edges = temporal connections between consecutive events
-```
-
-## Current workflow
-
-The final workflow works with one active audio file:
+The active working file is:
 
 ```text
 data/raw_audio/current_audio.wav
 ```
 
-To generate a new visualization, copy the desired `.wav` file into this location and run the analysis pipeline.
+This file is temporary and can be replaced whenever a new recording is being analysed.
+
+Final source recordings are stored by species:
+
+```text
+data/raw_audio/pipistrellus_pipistrellus/
+data/raw_audio/nyctalus_noctula/
+data/raw_audio/myotis_daubentonii/
+```
+
+Final renders and their exported data are archived in:
+
+```text
+visuals/renders/<species>/<render_number>/
+```
 
 Example:
 
+```text
+visuals/renders/pipistrellus_pipistrellus/01/
+  blender_scene.json
+  current_edges.csv
+  current_metadata.json
+  current_pulses.csv
+  render.mp4
+```
+
+## Main workflow
+
+### 1. Select an audio
+
+Copy a source recording into the active working file:
+
 ```powershell
-Copy-Item "data\raw_audio\pipistrellus_pipistrellus\pip_016.wav" "data\raw_audio\current_audio.wav"
+Copy-Item "data\raw_audio\pipistrellus_pipistrellus\pip_1.wav" "data\raw_audio\current_audio.wav" -Force
 ```
 
-Then run:
+### 2. Analyse the audio
 
 ```powershell
-python src/analyze_single_audio.py
-python src/export_blender_scene.py
+python src\analyze_single_audio.py
 ```
 
-If Blender has trouble playing the original high-sample-rate audio correctly, create a render-friendly 48 kHz copy:
-
-```powershell
-python src/create_render_audio.py
-```
-
-This does not sonify or invent a new sound. It only converts the original recording into a more standard audio format for video rendering.
-
-## Blender rendering
-
-The Blender part of the project is stored in:
-
-```text
-blender/
-```
-
-Main files:
-
-```text
-blender/animate_bat_spectrum.py
-blender/bat_spectrum_template.blend
-```
-
-The script reads:
-
-```text
-data/exports/blender_scene.json
-```
-
-and creates the animated node map in Blender.
-
-Typical Blender workflow:
-
-1. Open `blender/bat_spectrum_template.blend`.
-2. Open the Scripting workspace.
-3. Run `blender/animate_bat_spectrum.py`.
-4. Add the audio strip in the Video Sequencer if needed.
-5. Render the animation as an MP4 video.
-
-Recommended render settings:
-
-```text
-Resolution: 1280 x 720
-Frame rate: 30 fps
-Frame range: 1–409, or as defined by the current audio duration
-Container: MPEG-4
-Video Codec: H.264
-Audio Codec: AAC
-Sample Rate: 48000
-```
-
-Final renders should be saved by species and audio ID, for example:
-
-```text
-visuals/renders/pipistrellus_pipistrellus/pip_016/
-```
-
-## Project structure
-
-```text
-bat-spectrum/
-├── blender/
-│   ├── animate_bat_spectrum.py
-│   └── bat_spectrum_template.blend
-├── data/
-│   ├── exports/
-│   ├── processed/
-│   └── raw_audio/
-│       └── pipistrellus_pipistrellus/
-├── docs/
-├── src/
-│   ├── analyze_single_audio.py
-│   ├── audio_analysis.py
-│   ├── create_render_audio.py
-│   └── export_blender_scene.py
-├── visuals/
-│   └── renders/
-├── README.md
-├── requirements.txt
-└── .gitignore
-```
-
-## Main scripts
-
-### `src/analyze_single_audio.py`
-
-Analyzes:
-
-```text
-data/raw_audio/current_audio.wav
-```
-
-and exports:
+This generates:
 
 ```text
 data/exports/current_pulses.csv
@@ -155,84 +83,187 @@ data/exports/current_edges.csv
 data/exports/current_metadata.json
 ```
 
-These files contain the detected bat events, their acoustic properties, visual parameters and temporal connections.
+### 3. Export the Blender scene data
 
-### `src/export_blender_scene.py`
+```powershell
+python src\export_blender_scene.py
+```
 
-Converts the analysis outputs into:
+This generates:
 
 ```text
 data/exports/blender_scene.json
 ```
 
-This JSON file is the bridge between Python and Blender.
+### 4. Create render-friendly audio
 
-It contains:
-
-```text
-audio path
-animation duration
-nodes
-edges
-positions
-colors
-sizes
-birth times
+```powershell
+python src\create_render_audio.py
 ```
 
-### `src/create_render_audio.py`
-
-Creates a 48 kHz version of the current audio for Blender/video rendering:
+This generates:
 
 ```text
 data/processed/current_audio_render.wav
 ```
 
-This is useful when the original recorder file uses a high or unusual sample rate.
+### 5. Optional: create a cleaned bat-focused audio
+
+```powershell
+python src\clean_current_audio.py
+```
+
+This generates:
+
+```text
+data/clean/clean_audio.wav
+```
+
+The original recording is never modified.
+
+### 6. Render in Blender
+
+Open:
+
+```text
+blender/bat_spectrum_template.blend
+```
+
+Run:
+
+```text
+blender/animate_bat_spectrum.py
+```
+
+Then render the animation as an MP4 using H.264 and AAC audio.
+
+## Project structure
+
+```text
+bat-spectrum/
+  blender/
+    animate_bat_spectrum.py
+    bat_spectrum_template.blend
+
+  data/
+    raw_audio/
+      current_audio.wav
+      pipistrellus_pipistrellus/
+      nyctalus_noctula/
+      myotis_daubentonii/
+
+    exports/
+      blender_scene.json
+      current_edges.csv
+      current_metadata.json
+      current_pulses.csv
+
+    processed/
+      current_audio_render.wav
+      bat_spectrum_render.mp4
+
+    clean/
+      clean_audio.wav
+
+  docs/
+    dataset_notes.md
+    research_notes.md
+    visual_system.md
+
+  src/
+    analyze_single_audio.py
+    audio_analysis.py
+    clean_current_audio.py
+    create_render_audio.py
+    export_blender_scene.py
+
+  visuals/
+    renders/
+      pipistrellus_pipistrellus/
+      nyctalus_noctula/
+      myotis_daubentonii/
+```
+
+## Scripts
+
+### `src/analyze_single_audio.py`
+
+Analyses the current audio file and detects bat-like pulse events.
+
+It exports pulse data, edge data, and metadata used by the rest of the pipeline.
+
+### `src/export_blender_scene.py`
+
+Converts the detected pulse data into a Blender-friendly JSON scene.
+
+The visual position of each node is based on acoustic features such as frequency, energy, duration, and interval. Time is used for animation, not for spatial placement.
+
+### `src/create_render_audio.py`
+
+Converts the current audio into a render-friendly 48 kHz WAV file for Blender and video export.
+
+### `src/clean_current_audio.py`
+
+Creates a bat-focused cleaned version of the current audio.
+
+It combines frequency filtering with pulse-based masking, using the detected pulse regions to reduce non-bat noise.
 
 ### `src/audio_analysis.py`
 
-Utility script for generating additional study material from a single audio file, such as spectrograms and acoustic summaries.
+Exploratory helper script for inspecting audio, spectrograms, and acoustic behaviour.
 
 ## Data philosophy
 
-The repository uses `current_audio.wav` as a working file. This makes the pipeline simple and repeatable.
+The project separates four types of data:
 
-For each final render, the outputs should be archived separately by species and audio ID:
+1. **Source audio**
+   Original recordings stored by species.
+
+2. **Current working audio**
+   Temporary file used by the pipeline.
+
+3. **Generated exports**
+   CSV and JSON files created from the current audio.
+
+4. **Archived renders**
+   Final visual results stored with the exact data used to create them.
+
+The original source audio is never overwritten by the analysis, cleaning, or rendering scripts.
+
+## Notes on species and detection
+
+The project uses species folders such as:
 
 ```text
-data/exports/<species>/<audio_id>/
-visuals/renders/<species>/<audio_id>/
+pipistrellus_pipistrellus
+nyctalus_noctula
+myotis_daubentonii
 ```
 
-Example:
+Detection settings may need to change depending on the species, the recording device, and the amount of noise in the file.
+
+Noisy recordings are not automatically treated as valid bat material. If a recording appears to contain camera handling, movement, human noise, or uncertain events, it can be discarded instead of archived as a final render.
+
+## Blender
+
+Blender is used as the final visual rendering environment.
+
+The generated `.blend` file is not committed to the repository. The reusable template is:
 
 ```text
-data/exports/pipistrellus_pipistrellus/pip_016/
-visuals/renders/pipistrellus_pipistrellus/pip_016/
+blender/bat_spectrum_template.blend
 ```
 
-This keeps the active pipeline clean while preserving final results.
+The generated file:
 
-## Installation
-
-Create and activate a virtual environment:
-
-```powershell
-python -m venv .venv
-.\.venv\Scripts\Activate.ps1
+```text
+blender/bat_spectrum_generated.blend
 ```
 
-Install dependencies:
+is ignored because it is recreated by the script.
 
-```powershell
-pip install -r requirements.txt
-```
+## License and sources
 
-Blender is required for the final visualization and rendering stage.
+Audio files should only be added when their source and license are clear.
 
-## Notes
-
-The project originally explored TouchDesigner as a prototyping environment. The current final pipeline is based on Python and Blender.
-
-TouchDesigner files and scripts are no longer part of the main workflow.
+When using public datasets or external recordings, the source, species name, and license should be documented before archiving the render.
