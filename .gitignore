@@ -242,3 +242,6 @@ data/exports/pulses_summary.csv
 .DS_Store
 Thumbs.db
 blender/bat_spectrum_generated.blend
+
+data/clean/*
+!data/clean/.gitkeep
