@@ -267,3 +267,14 @@ is ignored because it is recreated by the script.
 Audio files should only be added when their source and license are clear.
 
 When using public datasets or external recordings, the source, species name, and license should be documented before archiving the render.
+
+
+## Copyright and usage
+
+This repository is public for documentation and portfolio purposes.
+
+Unless otherwise stated, the code, documentation, visual system, and rendered outputs are © Miguel Lidón. All rights reserved.
+
+The project may be viewed and studied, but it may not be copied, redistributed, modified, or used commercially without permission.
+
+Some audio recordings may come from external sources and remain subject to their original licenses and attribution requirements.
