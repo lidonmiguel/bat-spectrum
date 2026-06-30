@@ -8,7 +8,21 @@ import bpy
 from mathutils import Vector
 
 
-PROJECT_ROOT = Path(r"C:\Users\mikil\Documents\Repositorios\bat-spectrum")
+def find_project_root() -> Path:
+    script_path = Path(__file__).resolve()
+
+    # This script lives in:
+    # bat-spectrum/blender/animate_bat_spectrum.py
+    project_root = script_path.parents[1]
+
+    if not (project_root / "data").exists():
+        raise RuntimeError(f"Could not find project root from: {script_path}")
+
+    return project_root
+
+
+PROJECT_ROOT = find_project_root()
+
 
 SCENE_JSON = PROJECT_ROOT / "data" / "exports" / "blender_scene.json"
 OUTPUT_BLEND = PROJECT_ROOT / "blender" / "bat_spectrum_generated.blend"
@@ -281,9 +295,13 @@ def main() -> None:
 
     setup_camera_and_light(scene_data)
 
-    audio_path = scene_data["audio"]["path"]
-    add_audio_to_sequence_editor(audio_path)
+    audio_path = Path(scene_data["audio"]["path"])
 
+    if not audio_path.is_absolute():
+        audio_path = PROJECT_ROOT / audio_path
+
+    add_audio_to_sequence_editor(str(audio_path))
+    
     bpy.ops.wm.save_as_mainfile(filepath=str(OUTPUT_BLEND))
 
     print("")
