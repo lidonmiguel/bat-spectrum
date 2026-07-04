@@ -6,6 +6,8 @@ The project analyses a selected bat audio file, detects ultrasonic pulse events,
 
 The goal is not to create a literal scientific visualization only, but a hybrid between analysis, archive, and audiovisual interpretation.
 
+![Bat Spectrum preview](docs/bat-spectrum-preview.gif)
+
 ```text
 bat recording
 ↓
@@ -20,6 +22,29 @@ acoustic features
 animated Blender render
 ↓
 archived visual result
+```
+
+## Installation
+
+Create and activate a Python virtual environment:
+
+```powershell
+python -m venv .venv
+.\.venv\Scripts\Activate.ps1
+```
+
+Install the Python dependencies:
+
+```powershell
+pip install -r requirements.txt
+```
+
+Blender is required for the final 3D scene generation and rendering stage.
+
+The repository does not include the temporary active audio file. To run the pipeline, copy a recording into:
+
+```text
+data/raw_audio/current_audio.wav
 ```
 
 ## Current status
@@ -166,6 +191,7 @@ bat-spectrum/
       clean_audio.wav
 
   docs/
+    bat-spectrum-preview.gif
     dataset_notes.md
     research_notes.md
     visual_system.md
