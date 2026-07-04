@@ -1,0 +1,83 @@
+<svg width="1280" height="720" viewBox="0 0 1280 720" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <radialGradient id="bg" cx="50%" cy="45%" r="70%">
+      <stop offset="0%" stop-color="#182033"/>
+      <stop offset="55%" stop-color="#0b1020"/>
+      <stop offset="100%" stop-color="#03050b"/>
+    </radialGradient>
+    <radialGradient id="nodeA" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#fff5a8"/>
+      <stop offset="100%" stop-color="#f6b73c"/>
+    </radialGradient>
+    <radialGradient id="nodeB" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#a9f0ff"/>
+      <stop offset="100%" stop-color="#3f8cff"/>
+    </radialGradient>
+    <radialGradient id="nodeC" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#ffc0f1"/>
+      <stop offset="100%" stop-color="#b45cff"/>
+    </radialGradient>
+    <filter id="glow" x="-60%" y="-60%" width="220%" height="220%">
+      <feGaussianBlur stdDeviation="7" result="blur"/>
+      <feColorMatrix in="blur" type="matrix" values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 0.65 0" result="glow"/>
+      <feMerge>
+        <feMergeNode in="glow"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+    <filter id="soft" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur stdDeviation="1.2"/>
+    </filter>
+  </defs>
+
+  <rect width="1280" height="720" fill="url(#bg)"/>
+
+  <g opacity="0.28" filter="url(#soft)">
+    <path d="M80 530 C210 430 295 438 390 470 C500 508 605 520 760 445 C930 360 1070 382 1200 300" stroke="#6f7ea8" stroke-width="1.2"/>
+    <path d="M100 210 C230 260 300 330 420 292 C560 245 665 145 818 198 C960 248 1035 230 1180 165" stroke="#6574a0" stroke-width="1"/>
+  </g>
+
+  <g opacity="0.22">
+    <path d="M195 310 C245 250 305 240 360 290 C292 275 248 300 195 310Z" fill="#b8c3d6"/>
+    <path d="M360 290 C415 240 480 250 530 314 C472 300 420 282 360 290Z" fill="#9faabd"/>
+    <path d="M342 288 C358 276 372 276 388 289 C376 298 357 298 342 288Z" fill="#cbd4e5"/>
+    <path d="M354 278 L362 258 L370 278Z" fill="#cbd4e5"/>
+    <path d="M374 278 L382 258 L390 278Z" fill="#cbd4e5"/>
+  </g>
+
+  <g stroke-linecap="round" stroke-width="2" opacity="0.72">
+    <line x1="670" y1="250" x2="735" y2="210" stroke="#3f8cff"/>
+    <line x1="735" y1="210" x2="820" y2="245" stroke="#b45cff"/>
+    <line x1="820" y1="245" x2="880" y2="330" stroke="#ff75c8"/>
+    <line x1="880" y1="330" x2="790" y2="395" stroke="#f6b73c"/>
+    <line x1="790" y1="395" x2="690" y2="360" stroke="#3f8cff"/>
+    <line x1="690" y1="360" x2="670" y2="250" stroke="#7fe7ff"/>
+    <line x1="735" y1="210" x2="790" y2="395" stroke="#7fe7ff" opacity="0.45"/>
+    <line x1="820" y1="245" x2="690" y2="360" stroke="#ff75c8" opacity="0.45"/>
+    <line x1="880" y1="330" x2="970" y2="285" stroke="#f6b73c"/>
+    <line x1="970" y1="285" x2="1035" y2="370" stroke="#b45cff"/>
+    <line x1="1035" y1="370" x2="930" y2="445" stroke="#3f8cff"/>
+    <line x1="930" y1="445" x2="790" y2="395" stroke="#ff75c8"/>
+  </g>
+
+  <g filter="url(#glow)">
+    <circle cx="670" cy="250" r="9" fill="url(#nodeB)"/>
+    <circle cx="735" cy="210" r="12" fill="url(#nodeA)"/>
+    <circle cx="820" cy="245" r="10" fill="url(#nodeC)"/>
+    <circle cx="880" cy="330" r="13" fill="url(#nodeC)"/>
+    <circle cx="790" cy="395" r="11" fill="url(#nodeA)"/>
+    <circle cx="690" cy="360" r="8" fill="url(#nodeB)"/>
+    <circle cx="970" cy="285" r="9" fill="url(#nodeA)"/>
+    <circle cx="1035" cy="370" r="12" fill="url(#nodeC)"/>
+    <circle cx="930" cy="445" r="10" fill="url(#nodeB)"/>
+  </g>
+
+  <g opacity="0.12">
+    <circle cx="735" cy="210" r="78" stroke="#f6b73c" stroke-width="1"/>
+    <circle cx="880" cy="330" r="96" stroke="#b45cff" stroke-width="1"/>
+    <circle cx="930" cy="445" r="72" stroke="#3f8cff" stroke-width="1"/>
+  </g>
+
+  <text x="80" y="610" fill="#d8deec" font-family="Inter, Segoe UI, Arial, sans-serif" font-size="44" font-weight="700">Bat Spectrum</text>
+  <text x="82" y="650" fill="#9eaac2" font-family="Inter, Segoe UI, Arial, sans-serif" font-size="22">ultrasonic bat recordings → acoustic features → animated 3D maps</text>
+</svg>
