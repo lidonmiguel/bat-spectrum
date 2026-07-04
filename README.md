@@ -6,7 +6,7 @@ The project analyses a selected bat audio file, detects ultrasonic pulse events,
 
 The goal is not to create a literal scientific visualization only, but a hybrid between analysis, archive, and audiovisual interpretation.
 
-![Bat Spectrum preview](docs/bat-spectrum-preview.svg)
+![Bat Spectrum preview](docs/bat-spectrum-preview.gif)
 
 ```text
 bat recording
